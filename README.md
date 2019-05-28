@@ -87,3 +87,5 @@ ver o arquivo [https-server.js](https-server.js)
 https://www.digicert.com/ssl-support/openssl-quick-reference-guide.htm
 
 https://ajudadoprogramador.com.br/artigo/certificado-auto-assinado-no-linux
+
+https://github.com/cloudflare/cfssl/wiki/Creating-a-new-CSR
