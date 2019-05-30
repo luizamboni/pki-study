@@ -134,5 +134,10 @@ cfssl gencert -ca=../certs/intermediate/cluster.pem \
               | cfssljson -bare ../certs/certificates/peer
 
 
+# bundle all certs in a bundle file
+# its need be ordered by the root to more specific
+# cat ../certs/certificates/peer.pem ../certs/intermediate/cluster.pem  ../certs/ca/ca.pem  > ../certs/bundle.pem
+cat ../certs/intermediate/cluster.pem  ../certs/ca/ca.pem  > ../certs/bundle.pem
+
 # clean config json files
 rm *.json

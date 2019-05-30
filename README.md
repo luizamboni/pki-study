@@ -145,3 +145,7 @@ https://www.digicert.com/ssl-support/openssl-quick-reference-guide.htm
 https://ajudadoprogramador.com.br/artigo/certificado-auto-assinado-no-linux
 
 https://github.com/cloudflare/cfssl/wiki/Creating-a-new-CSR
+
+https://www.sitepoint.com/how-to-use-ssltls-with-node-js/
+
+https://gist.github.com/Soarez/9688998

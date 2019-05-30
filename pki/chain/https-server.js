@@ -5,7 +5,7 @@ const fs = require('fs');
 const options = {
   key:  fs.readFileSync('../certs/certificates/peer-key.pem'),
   cert: fs.readFileSync('../certs/certificates/peer.pem'),
-  ca:   fs.readFileSync('../certs/ca/ca.pem')
+  ca:  fs.readFileSync('../certs/bundle.pem')
 };
 
 https.createServer(options, (req, res) => {
@@ -17,3 +17,4 @@ https.createServer(options, (req, res) => {
 }).listen(8000, () => {
   console.log("listening https in port 8000")
 });
+
