@@ -3,19 +3,19 @@ const fs = require('fs');
 
 
 const getCertificate = () => {
-  if (fs.existsSync("./pki/exerciciosresolvidos.net.crt")) {
-    return fs.readFileSync('./pki/exerciciosresolvidos.net.crt');
+  if (fs.existsSync("../certs/exerciciosresolvidos.net.crt")) {
+    return fs.readFileSync('../certs/exerciciosresolvidos.net.crt');
   } else {
-    return fs.readFileSync('./pki/exerciciosresolvidos.pem');
+    return fs.readFileSync('../certs/exerciciosresolvidos.pem');
   }
 }
 
 const getPrivateKey = () => {
 
-  if (fs.existsSync('./pki/exerciciosresolvidos.net.key')) {
-    return fs.readFileSync('./pki/exerciciosresolvidos.net.key');
+  if (fs.existsSync('../certs/exerciciosresolvidos.net.key')) {
+    return fs.readFileSync('../certs/exerciciosresolvidos.net.key');
   } else {
-    return fs.readFileSync('./pki/exerciciosresolvidos-key.pem');
+    return fs.readFileSync('../certs/exerciciosresolvidos-key.pem');
   }
 }
 

@@ -1,0 +1,5 @@
+pki/selfsign/certs/*
+
+pki/chain/certs/*
+
+.vscode
