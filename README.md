@@ -9,43 +9,96 @@ Certificado raiz e autoassinado(root & selfsigned) em nodejs
  
 # Usando openssl
 
-1) Criar uma chave privada para o seu domínio
+### 1) Criar uma chave privada para o seu domínio
 
 ```bash
-$ openssl genrsa -out pki/exerciciosresolvidos.net.key 2048
+$ openssl genrsa -out exerciciosresolvidos.net.key 2048
 ```
 
-2) Extrair a chave pública da chave privada
+### 2) Extrair a chave pública da chave privada
 
 ```bash
-$ openssl rsa -in pki/exerciciosresolvidos.net.key -pubout -out pki/exerciciosresolvidos.public.net.key
+$ openssl rsa -in exerciciosresolvidos.net.key -pubout -out exerciciosresolvidos.public.net.key
 ```
 
-3) Constuir um crs (Certificate sign request), ou seja um pedido para assinatura de certificado,
+### 3) Constuir um crs (Certificate sign request), ou seja um pedido para assinatura de certificado,
 para isso é fornecida a chave privada (de onde será extraída a chave pública) e diversas informações 
 sobre o host etc
 ```bash
-$ openssl req -new -key pki/exerciciosresolvidos.net.key -out pki/exerciciosresolvidos.net.csr
+$ openssl req -new -key exerciciosresolvidos.net.key -out exerciciosresolvidos.net.csr
 ```
 
-4) Verificar csr
+### 4) Verificar csr
 ```bash
-$ openssl req -text -in pki/exerciciosresolvidos.net.csr -noout -verify
+$ openssl req -text -in exerciciosresolvidos.net.csr -noout -verify
 ```
 
-5) autoassinar (sem CA)
+### 5) autoassinar (sem CA)
 ```bash
-$ openssl x509 -req -days 365 -in pki/exerciciosresolvidos.net.csr -signkey pki/exerciciosresolvidos.net.key -out pki/exerciciosresolvidos.net.crt
+$ openssl x509 -req -days 365 -in exerciciosresolvidos.net.csr -signkey exerciciosresolvidos.net.key -out exerciciosresolvidos.net.crt
 ```
 
 ver o arquivo [openssl.sh](openssl.sh)
 
 
 # Usando cfssl 
-(cloudfront ssl)
+cfssl (cloudfront ssl) é um wrapper para o openssl desenvolvidos pelo cloudFront que simplifica muitas tarefas cotidianas no gerenciamente de certificados, ele também possui uma api http+json.
+O cfssl trabalha com inputs em formato json (sua api http recebe exatamente este mesmo input) 
+diferente do openssl que trabalha com um formato proprio ou requer interação.
+
+### 1) é necessário ter um arquivo de configuração,
+nele já são informados todos os campos necessários ao certificado (names)
+bem como a maneira como a chave privada será gerada (key)
+e também a duração do mesmo
+
+Então aí estão os <b>3 componentes</b> da chave:
+  - informações
+  - chave privada
+  - expiração
+
+```bash
+$ cat > config.json <<EOF
+{
+   "hosts": [
+      "localhost",
+      "www.example.com"
+   ],
+   "CN": "localhost",
+   "key": {
+      "algo": "rsa",
+      "size": 2048
+   },
+   "names": [
+      {
+         "C": "BR",
+         "L": "Rio de Janeiro",
+         "O": "zamba",
+         "OU": "exerciciosresolvidos site 1"
+      }
+   ],
+   "ca": {
+      "expiry": "262800h"
+   }
+}
+EOF
+```
+
+### 2) Com este comando são gerados 3 arquivos.
+
+```bash
+cfssl selfsign localhost config.json | cfssljson -bare exerciciosresolvidos
+```
 
 
 
+Este comando pode ser dividido em 2 partes,
+A primeira dá saída em um json com 3 campos (key, cert e csr) e a segundo transforma esta saída em 3 arquivos,
+
+<b>exerciciosresolvidos-ca.pem</b> para o campo <b>key</b>(chave privada)
+
+<b>exerciciosresolviros.csr</b>   para o campo <b>csr</b>
+
+<b>exerciciosresolvidos.pem</b> para o campo <b>cert</b>
 
 
 # Aplicação exemplo
@@ -72,12 +125,15 @@ ver o arquivo [https-server.js](https-server.js)
 
 # Arquivos e extensões
 
-## formato <b>PEM</b>
+## sinopse
+
+
+### formato <b>PEM</b>
   - São arquivos ACII codificados Base64
   - Eles possuem extensões como .pem, .crt, .cer, .key
   - Servidores Apache e similares usam certificados de formato PEM
 
-## formato <b>DER</b>
+### formato <b>DER</b>
   - São arquivos em formato binário
   - Eles possuem extensões .cer & .der
   - DER normalmente é usado na plataforma Java

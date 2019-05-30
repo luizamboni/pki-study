@@ -40,3 +40,7 @@ cat ../certs/config.json
 # 3 exerciciosresolvidos.pem     (the root certificat)
 # cfssl selfsign localhost ../certs/config.json | cfssljson -bare ../certs/exerciciosresolvidos
 cfssl selfsign localhost ../certs/config.json | cfssljson -bare ../certs/exerciciosresolvidos
+# cfssl selfsign localhost ../certs/config.json
+
+# clean config files
+rm ../certs/*.json
