@@ -69,7 +69,9 @@ Além disso, basta regerar o par de chaves, pois no início da próximo comunica
 
 ## Certificados digitais
 
-Certificados digitais são uma maneira de distribuir chaves públicas de criptografia para manter o conteúdo das mensagens <b>confidencial</b>.
+Certificados digitais são uma maneira de: 
+
+distribuir chaves públicas de criptografia para manter o conteúdo das mensagens <b>confidencial</b>.
 
 Garantir a <b>identidade</b> do receptor (ele é quem diz ser) através de uma autoridade certificadora.
 
@@ -78,10 +80,14 @@ E também pode ser usado como forma de <b>autenticação</b> mais segura que pas
 Garantir a <b>integridade</b> das mensagens recebidas, pois o conte
 udo original não pode ser alterado sem que a mensagem seja invalidada.
 
+![Anatomia de um Certificado](anatomy-of-a-certificate.png)
+
+
 ### X.509
 X.509 é um padrão largamente usado para certificados,
 Os protocolos SSL e TSL fazem uso dele.
 Neste padrão existem uma série de campos, uns opcionais e outros obrigatórios.
+
  - Nome da Organização
  - País
  - Estado
@@ -239,3 +245,6 @@ https://gist.github.com/Soarez/9688998
 
 Sobre ca-bundle (pacote de certificados)
 https://www.namecheap.com/support/knowledgebase/article.aspx/986/69/what-is-ca-bundle
+
+
+https://blog.cloudflare.com/how-to-build-your-own-public-key-infrastructure/
