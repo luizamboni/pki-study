@@ -25,7 +25,7 @@ a guerra fria, a inteligência inglesa já usava métodos de criptografia assim�
 
 Hoje a criptografia é amplamente usada na internet, através dos certificados digitais, embora haja poucos interessados em sabem como ela funciona.
 
-A criptografia tem como característica ser a conjunção de um método (uma sequencia de passos) de conhecimento relativamente difundido combinada com um segredo (uma variável).
+A criptografia tem como característica ser a conjunção de um método (uma sequencia de passos) de conhecimento relativamente difundido combinada com um segredo (uma variável particular de conhecimento apenas dos pares).
 
 Também pode ser dividida nas suas etapas:
 A etapa de cifrar, que é o processo de embaralhar a mensagem com o objetivo de esconder o seu significado, esta etapa é feita pelo emissor.
@@ -37,6 +37,8 @@ Nenhuma criptografia é indecifrável tecnicamente, mas na prática isto pode se
 O poder de uma criptografia depende de 2 fatores, a força do seu algorítico (o método de embaralhamento) e o tamanho da sua chave (seu segredo).
 
 ## Criptografia Simétrica e Assimétrica
+![criptografia simétrica](./sym.png)
+
 Na criptografia simétrica, tanto o emissor quanto o receptor conhecem o mesmo segredo e o usam tanto para cifrar quanto para descifrar as mensagens, bastando que compartilhem o mesmo método.
 Temos aí um problema, o segredo é muito importante. Transportar-lo e mantê-lo confidencial exige uma logística muito grande, e basta uma parte de N falhar para que todo o sistema seja comprometido.
 
@@ -45,10 +47,14 @@ A única maneira viável logisticamente seria enviar o segredo pelo próprio can
 
 Temos aí 2 maneiras: a primeira segura, porém inviável logisticamente, já a segunda é viável logisticamente, mas bem insegura.
 
+![Seguro ou inviável ?](two-buttons.jpg)
+
 E se houvesse uma maneira de combinar só as partes boas de cada método ? E se eu disser que existe ? Então chega a criptografia assimétrica para resolver esta questão, mas ela é um pouquinho mais complicada.
 
 Na criptografia assimétrica existem 2 segredos, um deles usado para cifrar e o outro para descifrar.
 São chamados de <b>chave publica</b> e <b>chave privada</b>.
+
+![Criptografia Assimétrica ?](asym.png)
 
 Sendo a chave publica derivada da chave privada, e enquanto a chave públic é distribuida para os emissores que desejam enviar mensagens para este receptor a chave privada se mantem sigilosa e é usado pelo receptor para descifrar as mensagens cifradas pela sua parte pública.
 
@@ -57,6 +63,9 @@ No início da comunicação, os envolvidos distribuem suas chaves públicas para
 A chave privada <b>nunca</b> é distribuida, e no caso desta ser comprometida, apenas o dono dela estará comprometido, não o sistema inteiro. 
 
 Além disso, basta regerar o par de chaves, pois no início da próximo comunicação a nova chave pública será distribuida para os outros participantes.
+
+![Agora sim!](one-button.jpg)
+
 
 ## Certificados digitais
 
@@ -83,7 +92,6 @@ Neste padrão existem uma série de campos, uns opcionais e outros obrigatórios
  - etc
 
 Não pretendo entrar a fundo aqui, mas existem outros padrões como PGP (e que conheço menos ainda) que é muito usado pelos sistemas de pacotes do linux.
-
 
 # Usando openssl
 
