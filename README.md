@@ -92,16 +92,17 @@ Um certificado consiste basicamente:
 Assinaturas são codificadas pela chave privada e verificadas pela chave pública,
 assim podem ser verificadas publicamente.
 
+
+Na cadeia de confiança um certificado(de CA) assina outro, com excessão dos autoassinados.
+
+![Fluxo de Certificação](client-crt-flux.png)
+
 Assinaturas marcam no certificado e garantem:
 
 <b>Integridade: </b> O conteúdo não foi alterado desde a assintarura
 
 <b>Autenticação: </b> Garante quem é o autor (assinante)
 
-Na cadeia de confiança um certificado(de CA) assina outro, com excessão dos autoassinados.
-
-
-Sendo:
 ### Padrão X.509
 X.509 é um padrão largamente usado para certificados,
 Os protocolos SSL e TSL fazem uso dele.
@@ -131,30 +132,20 @@ Não pretendo entrar a fundo aqui, mas existem outros padrões como PGP (e que c
 $ openssl genrsa -out exerciciosresolvidos.net.key 2048
 ```
 
-### 2) Extrair a chave pública da chave privada
-
-```bash
-$ openssl rsa -in exerciciosresolvidos.net.key -pubout -out exerciciosresolvidos.public.net.key
-```
-
-### 3) Constuir um crs (Certificate sign request), ou seja um pedido para assinatura de certificado,
+### 2) Constuir um crs (Certificate sign request), ou seja um pedido para assinatura de certificado,
 para isso é fornecida a chave privada (de onde será extraída a chave pública) e diversas informações 
 sobre o host etc
 ```bash
-$ openssl req -new -key exerciciosresolvidos.net.key -out exerciciosresolvidos.net.csr
+$ openssl req -new -key exerciciosresolvidos.key -out exerciciosresolvidos.csr
 ```
 
-### 4) Verificar csr
+
+### 3) autoassinar (sem CA)
 ```bash
-$ openssl req -text -in exerciciosresolvidos.net.csr -noout -verify
+$ openssl x509 -req -days 365 -in exerciciosresolvidos.csr -signkey exerciciosresolvidos.key -out exerciciosresolvidos.crt
 ```
 
-### 5) autoassinar (sem CA)
-```bash
-$ openssl x509 -req -days 365 -in exerciciosresolvidos.net.csr -signkey exerciciosresolvidos.net.key -out exerciciosresolvidos.net.crt
-```
-
-ver o arquivo [openssl.sh](openssl.sh)
+ver o arquivo [openssl.sh](./pki/selfsign/openssl.sh)
 
 
 # Usando cfssl 
@@ -215,6 +206,9 @@ A primeira dá saída em um json com 3 campos (key, cert e csr) e a segundo tran
 <b>exerciciosresolvidos.pem</b> para o campo <b>cert</b>
 
 
+ver o arquivo [cfssl.sh](./pki/selfsign/cfssl.sh)
+
+
 # Aplicação exemplo
 Adicionar a aplicação nodejs (escolhida aqui simplicidade para ser o mais didático possível)
 
@@ -233,7 +227,7 @@ https.createServer(options, (req, res) => {
 }).listen(8000);
 ```
 
-ver o arquivo [https-server.js](https-server.js)
+ver o arquivo [server.js](./pki/selfsign/server.js)
 
 
 
