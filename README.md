@@ -197,14 +197,13 @@ cfssl selfsign localhost config.json | cfssljson -bare exerciciosresolvidos
 ```
 
 Este comando pode ser dividido em 2 partes,
-A primeira dá saída em um json com 3 campos (key, cert e csr) e a segundo transforma esta saída em 3 arquivos,
+A primeira dá saída em um json com 3 campos (key, cert e csr) e a segundo transforma esta saída em 3 arquivos:
 
-<b>exerciciosresolvidos-ca.pem</b> para o campo <b>key</b>(chave privada)
-
-<b>exerciciosresolviros.csr</b>   para o campo <b>csr</b>
-
-<b>exerciciosresolvidos.pem</b> para o campo <b>cert</b>
-
+| Arquivo | Descrição |
+| ----------- | ----------- |
+| exerciciosresolvidos-ca.pem | Chave Privada |
+| exerciciosresolvidos.csr | Certificate Sign Request |
+| exerciciosresolvidos.pem | Certificado |
 
 ver o arquivo [cfssl.sh](./pki/selfsign/cfssl.sh)
 
