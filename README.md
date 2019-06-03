@@ -71,7 +71,7 @@ Além disso, basta regerar o par de chaves, pois no início da próximo comunica
 
 Certificados digitais são uma maneira de: 
 
-distribuir chaves públicas de criptografia para manter o conteúdo das mensagens <b>confidencial</b>.
+Distribuir chaves públicas de criptografia para manter o conteúdo das mensagens <b>confidencial</b>.
 
 Garantir a <b>identidade</b> do receptor (ele é quem diz ser) através de uma autoridade certificadora.
 
@@ -83,10 +83,32 @@ udo original não pode ser alterado sem que a mensagem seja invalidada.
 ![Anatomia de um Certificado](anatomy-of-a-certificate.png)
 
 
-### X.509
+Um certificado consiste basicamente:
+ - Uma chave pública
+ - Informações
+ - Assinatura digital (uma ou mais)
+
+### Assinatura
+Assinaturas são codificadas pela chave privada e verificadas pela chave pública,
+assim podem ser verificadas publicamente.
+
+Assinaturas marcam no certificado e garantem:
+
+<b>Integridade: </b> O conteúdo não foi alterado desde a assintarura
+
+<b>Autenticação: </b> Garante quem é o autor (assinante)
+
+Na cadeia de confiança um certificado(de CA) assina outro, com excessão dos autoassinados.
+
+
+Sendo:
+### Padrão X.509
 X.509 é um padrão largamente usado para certificados,
 Os protocolos SSL e TSL fazem uso dele.
 Neste padrão existem uma série de campos, uns opcionais e outros obrigatórios.
+
+
+![Padrão x509](x509-standard.png)
 
  - Nome da Organização
  - País
@@ -95,6 +117,8 @@ Neste padrão existem uma série de campos, uns opcionais e outros obrigatórios
  - Email
  - domínios
  - usos
+ - assinatura
+ - chave publica
  - etc
 
 Não pretendo entrar a fundo aqui, mas existem outros padrões como PGP (e que conheço menos ainda) que é muito usado pelos sistemas de pacotes do linux.
@@ -181,8 +205,6 @@ EOF
 cfssl selfsign localhost config.json | cfssljson -bare exerciciosresolvidos
 ```
 
-
-
 Este comando pode ser dividido em 2 partes,
 A primeira dá saída em um json com 3 campos (key, cert e csr) e a segundo transforma esta saída em 3 arquivos,
 
@@ -248,3 +270,17 @@ https://www.namecheap.com/support/knowledgebase/article.aspx/986/69/what-is-ca-b
 
 
 https://blog.cloudflare.com/how-to-build-your-own-public-key-infrastructure/
+
+
+https://www.gta.ufrj.br/grad/00_1/rodrigo/fr9right.htm
+
+
+https://marmelab.com/blog/2019/01/23/https-in-development.html
+
+
+https://medium.com/@sevcsik/authentication-using-https-client-certificates-3c9d270e8326
+
+https://stackoverflow.com/questions/19665863/how-do-i-use-a-self-signed-certificate-for-a-https-node-js-server
+
+Sobre assinatura
+https://www.globalsign.com/en/code-signing-certificate/what-is-code-signing-certificate/
