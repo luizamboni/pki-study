@@ -9,10 +9,12 @@ Neste estudo pretendo compartilhar algumas das coisas que aprendi e peço que me
 
 # Conteúdo
  - [Visão Geral](#visao-geral)
- - [Usando openssl](#usando-openssl)
- - [Usando cfssl](#usando-cfssl)
+ - [Ferramentas](#ferramentas)
+   * [openssl](##openssl)
+   * [cfssl](##cfssl)
  - [Aplicação Exemplo](#aplicação-exemplo)
- - [Arquivos e Extensões](#arquivos-e-extensoes)
+ - [Glossário](#glossario)
+   * [Arquivos e Extensões](#arquivos-e-extensoes)
  
 
 # Visão Geral
@@ -84,9 +86,12 @@ udo original não pode ser alterado sem que a mensagem seja invalidada.
 
 
 Um certificado consiste basicamente:
+
  - Uma chave pública
  - Informações
  - Assinatura digital (uma ou mais)
+
+Nos protocolos ssl e tls o padrão de certificado é o [X.509]("###padrao-x-509")
 
 ### Assinatura
 Assinaturas são codificadas pela chave privada e verificadas pela chave pública,
@@ -111,6 +116,8 @@ Neste padrão existem uma série de campos, uns opcionais e outros obrigatórios
 
 ![Padrão x509](x509-standard.png)
 
+Entre estes campos constam informações relativas a:
+
  - Nome da Organização
  - País
  - Estado
@@ -124,7 +131,10 @@ Neste padrão existem uma série de campos, uns opcionais e outros obrigatórios
 
 Não pretendo entrar a fundo aqui, mas existem outros padrões como PGP (e que conheço menos ainda) que é muito usado pelos sistemas de pacotes do linux.
 
-# Usando openssl
+
+# Ferramentas
+
+## openssl
 
 ### 1) Criar uma chave privada para o seu domínio
 
@@ -148,7 +158,7 @@ $ openssl x509 -req -days 365 -in exerciciosresolvidos.csr -signkey exerciciosre
 ver o arquivo [openssl.sh](./pki/selfsign/openssl.sh)
 
 
-# Usando cfssl 
+## cfssl 
 cfssl (cloudfront ssl) é um wrapper para o openssl desenvolvidos pelo cloudFront que simplifica muitas tarefas cotidianas no gerenciamente de certificados, ele também possui uma api http+json.
 O cfssl trabalha com inputs em formato json (sua api http recebe exatamente este mesmo input) 
 diferente do openssl que trabalha com um formato proprio ou requer interação.
@@ -197,7 +207,7 @@ cfssl selfsign localhost config.json | cfssljson -bare exerciciosresolvidos
 ```
 
 Este comando pode ser dividido em 2 partes,
-A primeira dá saída em um json com 3 campos (key, cert e csr) e a segundo transforma esta saída em 3 arquivos:
+A primeira dá saída em um json com 3 campos (key, cert e csr) e a segundo transforma esta saída nos 3 arquivos:
 
 | Arquivo | Descrição |
 | ----------- | ----------- |
@@ -216,8 +226,8 @@ const https = require('https');
 const fs = require('fs');
 
 const options = {
-  key: fs.readFileSync('exerciciosresolvidos.net.key'),
-  cert: fs.readFileSync('exerciciosresolvidos.net.crt'),
+  key: fs.readFileSync('exerciciosresolvidos.key'),
+  cert: fs.readFileSync('exerciciosresolvidos.crt'),
 };
 
 https.createServer(options, (req, res) => {
@@ -229,11 +239,8 @@ https.createServer(options, (req, res) => {
 ver o arquivo [server.js](./pki/selfsign/server.js)
 
 
-
-# Arquivos e extensões
-
-## sinopse
-
+# Glossário
+## Arquivos e extensões
 
 ### formato <b>PEM</b>
   - São arquivos ACII codificados Base64
@@ -245,7 +252,7 @@ ver o arquivo [server.js](./pki/selfsign/server.js)
   - Eles possuem extensões .cer & .der
   - DER normalmente é usado na plataforma Java
 
-# Referências
+## Referências
 
 https://www.digicert.com/ssl-support/openssl-quick-reference-guide.htm
 
@@ -277,3 +284,7 @@ https://stackoverflow.com/questions/19665863/how-do-i-use-a-self-signed-certific
 
 Sobre assinatura
 https://www.globalsign.com/en/code-signing-certificate/what-is-code-signing-certificate/
+
+
+Certificação do Cliente
+https://blog.cloudflare.com/introducing-tls-client-auth/
