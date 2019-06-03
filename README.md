@@ -131,6 +131,27 @@ Entre estes campos constam informações relativas a:
 
 Não pretendo entrar a fundo aqui, mas existem outros padrões como PGP (e que conheço menos ainda) que é muito usado pelos sistemas de pacotes do linux.
 
+### SSL ou TLS
+
+SSL ou TLS(mais usado atualmente) é um protocolo de segurança, onde pares negociam o uso de uma encriptação antes de enviarem as mensagens.
+
+TLS se dá em uma camada de segurança, entre a camada de transporte e a camada de aplicação. Podendo ser usado em conjunto com diversos protocolos: http(https), fts(ftps, não sftp que usa ssh) etc.
+
+Durante as etapas do protocolo os pares acertam sobre:
+
+   - A versão do protocolo a ser usada
+   - Um id de sessão
+   - O algorítimo de encriptação
+   - O Método de compressão
+   - Autenticam um o outro através do recebimento dos seus certificados e a validação das suas assinaturas (A autendicação do client é opcional)
+   - Usam a criptografia assimétrica para gerar um
+   segredo compartilhado, usado a partir de então de maneira simétrica para encripatação e desencriptação dos dados.
+
+![SSL Fluxo](ssl-flux.gif)
+
+
+Mais detalhes em [https://tls.ulfheim.net](https://tls.ulfheim.net)
+
 
 # Ferramentas
 
@@ -240,6 +261,20 @@ ver o arquivo [server.js](./pki/selfsign/server.js)
 
 
 # Glossário
+## Termos e Siglas
+
+
+
+<b>PGP:</b>  Significa "Prety Good Privacy", um outro padrão de certificado digital.
+
+<b>Private Key:</b> Chave Privada mantida em sigilo, da qual a Chave Pública é derivada, na maior parte dos casos é usada apenas para descifrar, mas também pode cifrar como no seu uso para assinaturas.</b>
+<br/>
+Quando usada para cifrar, somente pode ser descifrada para sua correspondente chave pública.
+
+<b>Public Key:</b> Chave Pública distribuida para que emissores possam tanto cifrar mensagens destinadas ao receptor possuidor da Chave Privada. <br/>
+Também pode ser usada para verificar a validade de assinatures produzidas pela sua correspondente Chave Privada.
+
+
 ## Arquivos e extensões
 
 ### formato <b>PEM</b>
@@ -288,3 +323,6 @@ https://www.globalsign.com/en/code-signing-certificate/what-is-code-signing-cert
 
 Certificação do Cliente
 https://blog.cloudflare.com/introducing-tls-client-auth/
+
+Um pouco mais a fundo sobre como a encriptação com chaves publicas e privadas funcionam
+https://ssd.eff.org/en/module/deep-dive-end-end-encryption-how-do-public-key-encryption-systems-work
